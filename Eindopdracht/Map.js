@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
+import { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 
 export function Map() {
-    const [location, setLocation] = useState(null);
+    const [location, setLocation] = useState({
+        latitude: 37.78825,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+    });
     const [errorMsg, setErrorMsg] = useState(null);
   
     useEffect(() => {
@@ -15,8 +21,8 @@ export function Map() {
           return;
         }
   
-        let location = await Location.getCurrentPositionAsync({});
-        setLocation(location);
+        let locationSelf = await Location.getCurrentPositionAsync({});
+        setLocation(locationSelf.coords);
       })();
     }, []);
   
@@ -24,7 +30,7 @@ export function Map() {
     if (errorMsg) {
       text = errorMsg;
     } else if (location) {
-    //   console.log(location)
+      console.log(location)
       text = JSON.stringify(location);
     }
   
@@ -33,12 +39,18 @@ export function Map() {
         <Text style={styles.paragraph}>{text}</Text>
         <MapView style={styles.map} 
           initialRegion={{
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
+            latitude: location.latitude,
+            longitude: location.longitude,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
-        />
+          region={{
+            latitude: location.latitude,
+            longitude: location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}>
+        </MapView>
       </View>
     );
 }
