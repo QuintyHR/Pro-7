@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import MapView from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 
@@ -38,18 +38,21 @@ export function Map() {
       <View style={styles.container}>
         <Text style={styles.paragraph}>{text}</Text>
         <MapView style={styles.map} 
+          provider={PROVIDER_GOOGLE}
           initialRegion={{
             latitude: location.latitude,
             longitude: location.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.001,
           }}
           region={{
             latitude: location.latitude,
             longitude: location.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}>
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.001,
+          }}
+        >
+          <Marker coordinate={location} />
         </MapView>
       </View>
     );
