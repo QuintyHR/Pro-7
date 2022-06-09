@@ -1,0 +1,32 @@
+{
+    "hobbyShopGouda" : {
+        "title" : "Hobby Shop Gouda",
+        "description" : "De hobby winkel van Gouda",
+        "longitude" : "4.707885265350342",
+        "latitude" : "52.010643005371094"
+    },
+    "barendVanZwieten" : {
+        "title" : "Barend van Zwieten",
+        "description" : "De hobby winkel van Alphen",
+        "longitude" : "4.6636199951171875",
+        "latitude" : "52.1341438293457"
+    },
+    "pipoosHazerswoude" : {
+        "title" : "Pipoos Hazerswoude",
+        "description" : "De hobby winkel van Hazerswoude",
+        "longitude" : "4.5508701",
+        "latitude" : "52.137944"
+    },
+    "tabletopKingdomRotterdam" : {
+        "title" : "Tabletop Kingdom Rotterdam",
+        "description" : "Miniaturen en D&D winkel van Rotterdam",
+        "longitude" : "51.924769",
+        "latitude" : "4.4763087"
+    },
+    "tabletopKingdomDenHaag" : {
+        "title" : "Tabletop Kingdom Den Haag",
+        "description" : "Miniaturen en D&D winkel van Den Haag",
+        "longitude" : "52.07910919189453",
+        "latitude" : "4.317155838012695"
+    }
+}
