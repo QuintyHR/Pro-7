@@ -12,6 +12,7 @@ export function Map() {
         longitudeDelta: 0.001,
     });
     const [errorMsg, setErrorMsg] = useState(null);
+    const [markers, setMarkers] = useState([])
   
     useEffect(() => {
       (async () => {
@@ -33,6 +34,25 @@ export function Map() {
       console.log(location)
       text = JSON.stringify(location);
     }
+
+    const loadJSON = () => {
+        fetch("https://stud.hosted.hr.nl/1019766/webservice/hobbyshop.json")
+            .then(res => res.json())
+            .then(data => setMarkers(data.items))
+            .catch(error => console.log(error))
+    }
+
+    const markerItems = markers.map((marker, index) => {
+        return <Marker
+          key={index}
+          coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+          title={marker.title}
+          description={marker.description}
+        >
+        </Marker >
+    })
+
+    useEffect(loadJSON, [])
   
     return (
       <View style={styles.container}>
@@ -53,6 +73,7 @@ export function Map() {
           }}
         >
           <Marker coordinate={location} />
+          {markerItems}
         </MapView>
       </View>
     );
