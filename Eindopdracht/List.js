@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View, FlatList } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View, FlatList, SafeAreaView } from 'react-native';
+import { useTheme } from './themes/themeProvider';
 
 export function List() {
+  const {theme} = useTheme();
   const [items, setItems] = useState([]);
 
   const loadJSON = () => {
@@ -22,16 +24,18 @@ export function List() {
   useEffect(loadJSON, [])
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>List Screen</Text>
-      {/* {isFetching ? <ActivityIndicator size="large" color="#FF00FF" /> : ( */}
-      <FlatList
-        data={items}
-        keyExtractor={({ id }) => id}
-        renderItem={renderItem}
-      />
-      {/* )} */}
-    </View>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>List Screen</Text>
+        {/* {isFetching ? <ActivityIndicator size="large" color="#FF00FF" /> : ( */}
+        <FlatList
+          data={items}
+          keyExtractor={({ id }) => id}
+          renderItem={renderItem}
+        />
+        {/* )} */}
+      </View>
+    </SafeAreaView>
   );
 }
 

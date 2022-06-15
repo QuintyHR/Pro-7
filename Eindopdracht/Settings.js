@@ -1,24 +1,29 @@
-import { StyleSheet, Text, View, Button } from 'react-native';
-import * as React from 'react';
-import Switch from 'expo-dark-mode-switch';
+import { StyleSheet, View, Text, Button } from 'react-native';
+import { useTheme } from './themes/themeProvider';
 
 export function Settings() {
-  const [value, setValue] = React.useState(true);
+  const {theme, updateTheme} = useTheme();
+  const changeTheme = () => updateTheme(theme.themeMode);
 
   return (
-    <View style={styles.container}>
-      <Text>We are on Light mode!</Text>
-      <Button title="Switch to Dark Mode" onPress={() => null} />
-      {/* <Switch value={value} onChange={value => setValue(value)} />; */}
+    <View style={[styles.container, {backgroundColor: theme.backgroundColor}]}>
+      <Text style={[styles.text, {color: theme.textColor}]}>Settings screen</Text>
+      <Button title={theme.themeMode !== 'dark' ? 'darkmode' : 'lightmode'}
+              onPress={changeTheme}
+              color={theme.nav.backgroundColor}
+      />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 25,
+    fontWeight: 'bold',
   },
 });
