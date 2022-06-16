@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View, FlatList, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, FlatList, SafeAreaView, Button } from 'react-native';
 import { useTheme } from './themes/themeProvider';
 
-export function List() {
+import { Form } from './Form.js'
+
+const List = ({ navigation }) => {
   const {theme} = useTheme();
   const [items, setItems] = useState([]);
 
@@ -15,8 +17,14 @@ export function List() {
 
   const renderItem = ({ item }) => {
     return (
-      <View style={styles.item}>
-        <Text>{item.title}</Text>
+      <View style={[styles.item, { backgroundColor: theme.listBox.backgroundColor }]}>
+        <Text style={[styles.titleText, { color: theme.textColor }]}>{item.title}</Text>
+        <Text style={[{ color: theme.textColor }]}>{item.description}</Text>
+        <Button 
+          title='+ Add note'
+          onPress={() => navigation.navigate('Form', { screen: Form})} 
+          options={{ headerShown: false }}
+        />
       </View>
     )
   }
@@ -26,7 +34,6 @@ export function List() {
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>List Screen</Text>
         {/* {isFetching ? <ActivityIndicator size="large" color="#FF00FF" /> : ( */}
         <FlatList
           data={items}
@@ -46,4 +53,15 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
+    item: {
+      padding: 5,
+      margin: 10,
+    },
+    titleText: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      paddingBottom: 10,
+    },
 });
+
+export {List};

@@ -13,10 +13,10 @@ const tab = ({ color, tab, onPress, icon }) => {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
+      flex: 5,
       alignItems: 'center',
       justifyContent: 'center',
-      padding: 5,
+      padding: 10,
     },
 });
 

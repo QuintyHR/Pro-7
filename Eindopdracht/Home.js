@@ -7,7 +7,7 @@ export function Home() {
     return (
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Home Screen</Text>
+            <Text style={[{ color: theme.textColor }]}>Home Screen</Text>
         </View>
       </SafeAreaView>
     );

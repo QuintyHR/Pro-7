@@ -19,15 +19,11 @@ const TabBar = ({state, navigation}) => {
     return (
         <View style={{ position: 'absolute', bottom: 0, width: width}}>
         <View
-            style={[
-            styles.container,
-            { backgroundColor: theme.nav.backgroundColor },
-            ]}
-        >
+            style={[styles.container,{ backgroundColor: theme.nav.backgroundColor },]}>
             {routes.map((route, index) => (
             <Tab
+                styles={styles.tab}
                 tab={route}
-
                 onPress={() => handlePress(route.name, index)}
                 color={renderColor(route.name)}
                 key={route.key}
@@ -39,7 +35,11 @@ const TabBar = ({state, navigation}) => {
 };
 
 const styles = StyleSheet.create({
-    
+    container: {
+        flexDirection: "row",
+        paddingBottom: 30,
+        paddingTop: 30,
+    },
 })
 
 export default TabBar
