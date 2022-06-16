@@ -11,6 +11,10 @@ export const defaultTheme = {
     listBox: {
       backgroundColor: '#B3B9C9',
     },
+    input: {
+      textColor: '#000',
+      backgroundColor: '#F5F5F5',
+    },
     themeMode: 'default',
 };
 
@@ -25,6 +29,10 @@ export const darkTheme = {
     },
     listBox: {
       backgroundColor: '#323338',
+    },
+    input: {
+      textColor: '#fff',
+      backgroundColor: '#1A1A1A',
     },
     themeMode: 'dark',
 };

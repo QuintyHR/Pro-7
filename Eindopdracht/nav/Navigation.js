@@ -17,7 +17,7 @@ export function Navigation() {
       <Tab.Screen name="Map" component={Map} />
       <Tab.Screen name="List" component={List} />
       <Tab.Screen name="Settings" component={Settings} />
-      <Tab.Screen name="Form" component={Form} />
+      <Tab.Screen name="Add note" component={Form} />
     </Tab.Navigator>
   );
 }
