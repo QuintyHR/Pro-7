@@ -22,7 +22,7 @@ const List = ({ navigation }) => {
         <Text style={[{ color: theme.textColor }]}>{item.description}</Text>
         <Button 
           title='+ Add note'
-          onPress={() => navigation.navigate('Add note', { screen: Form})} 
+          onPress={() => navigation.navigate('Add note', { screen: Form, id: item.id, title: item.title})} 
           options={{ headerShown: false }}
         />
       </View>
