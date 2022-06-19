@@ -10,7 +10,7 @@ export function Settings() {
       <Text style={[styles.text, {color: theme.textColor}]}>Settings screen</Text>
       <Button title={theme.themeMode !== 'dark' ? 'darkmode' : 'lightmode'}
               onPress={changeTheme}
-              color={theme.nav.backgroundColor}
+              backgroundColor={theme.nav.backgroundColor}
       />
     </View>
   );

@@ -1,7 +1,10 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, TextInput, View, Text } from "react-native";
+import { SafeAreaView, StyleSheet, TextInput, View, Text, Button } from "react-native";
 import { useRoute } from '@react-navigation/native';
 import { useTheme } from './themes/themeProvider';
+import { openDatabase } from "react-native-sqlite-storage";
+
+const db = openDatabase
 
 export function Form() {
     const route = useRoute();
@@ -10,7 +13,9 @@ export function Form() {
 
     const { screen, id, title } = route.params;
 
-    console.log(route.params)
+    const addNote = () => {
+
+    }
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
@@ -22,6 +27,7 @@ export function Form() {
                     value={text}
                     placeholder="Write your note here"
                 />
+                <Button title="Save" onPress={addNote} />
             </View>
         </SafeAreaView>
     );

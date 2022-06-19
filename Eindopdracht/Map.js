@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
+import NetInfo from '@react-native-community/netinfo';
 
 export function Map() {
     const [location, setLocation] = useState({
@@ -13,6 +14,17 @@ export function Map() {
     });
     const [errorMsg, setErrorMsg] = useState(null);
     const [markers, setMarkers] = useState([])
+
+    let data = null;
+
+    const checkWifi = NetInfo.addEventListener(state => {
+      console.log('Connection type', state.type);
+      console.log('Is connected?', state.isConnected);
+      data = state.isConnected
+    });
+
+    useEffect(checkWifi);
+    console.log(data)
   
     useEffect(() => {
       (async () => {
@@ -27,7 +39,6 @@ export function Map() {
       })();
     }, []);
   
-    let text = 'Waiting...';
     if (errorMsg) {
       text = errorMsg;
     } else if (location) {
@@ -54,29 +65,36 @@ export function Map() {
 
     useEffect(loadJSON, [])
   
-    return (
-      <View style={styles.container}>
-        <Text style={styles.paragraph}>{text}</Text>
-        <MapView style={styles.map} 
-          provider={PROVIDER_GOOGLE}
-          initialRegion={{
-            latitude: location.latitude,
-            longitude: location.longitude,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.001,
-          }}
-          region={{
-            latitude: location.latitude,
-            longitude: location.longitude,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.001,
-          }}
-        >
-          <Marker coordinate={location} />
-          {markerItems}
-        </MapView>
-      </View>
-    );
+    if(data === true) {
+      return (
+        <View style={styles.container}>
+          <MapView style={styles.map} 
+            provider={PROVIDER_GOOGLE}
+            initialRegion={{
+              latitude: location.latitude,
+              longitude: location.longitude,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.001,
+            }}
+            region={{
+              latitude: location.latitude,
+              longitude: location.longitude,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.001,
+            }}
+          >
+            <Marker coordinate={location} />
+            {markerItems}
+          </MapView>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <Text>Fail</Text>
+        </View>
+      );
+    }
 }
 
 const styles = StyleSheet.create({
