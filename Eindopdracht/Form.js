@@ -1,43 +1,105 @@
-import React from "react";
-import { SafeAreaView, StyleSheet, TextInput, View, Text, Button } from "react-native";
+import { useState, useEffect } from 'react';
+import { Button, Platform, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
+import Constants from 'expo-constants';
 import { useRoute } from '@react-navigation/native';
 import { useTheme } from './themes/themeProvider';
-import { openDatabase } from "react-native-sqlite-storage";
+import * as SQLite from 'expo-sqlite';
 
 import { List } from "./List";
 
-const db = openDatabase
+function openDatabase() {
+    if (Platform.OS === "web") {
+      return {
+        transaction: () => {
+          return {
+            executeSql: () => {},
+          };
+        },
+      };
+    }
+  
+    const db = SQLite.openDatabase("db.db");
+    return db;
+}
+
+const db = openDatabase();
 
 const Form = ({ navigation }) => {
     const route = useRoute();
     const {theme} = useTheme();
-    const [text, onChangeText] = React.useState("");
-
     const { screen, id, title } = route.params;
-
-    const addNote = () => {
-
-    }
-
+    const [text, setText] = useState(null);
+    const [forceUpdate, forceUpdateId] = useForceUpdate();
+  
+    useEffect(() => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "create table if not exists notes (id integer primary key not null, itemId int, noteText text);"
+        );
+      });
+    }, []);
+  
+    const add = (text) => {
+      // is text empty?
+      if (text === null || text === "") {
+        return false;
+      }
+  
+      db.transaction(
+        (tx) => {
+          tx.executeSql("insert into notes (itemId, noteText) values (?, ?)", [id, text]);
+          tx.executeSql("select * from notes", [], (_, { rows }) =>
+            console.log(JSON.stringify(rows))
+          );
+        },
+        null,
+        forceUpdate
+      );
+    };
+  
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
             <View>
-                <Text style={{color: theme.input.textColor}}>Voeg hier een notitie toe aan: {JSON.stringify(title)}</Text>
-                <TextInput
-                    style={[styles.input, {backgroundColor: theme.input.backgroundColor}, {color: theme.input.textColor}]}
-                    onChangeText={onChangeText}
-                    value={text}
-                    placeholder="Write your note here"
-                />
-                <Button title="Save" onPress={addNote} />
-                <Button 
-                    title='Go back'
-                    onPress={() => navigation.navigate('List', { screen: List})} 
-                    options={{ headerShown: false }}
-                />
+                {Platform.OS === "web" ? (
+                <View
+                    style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+                >
+                    <Text style={styles.heading}>
+                    Expo SQlite is not supported on web!
+                    </Text>
+                </View>
+                ) : (
+                <>
+                    <View style={styles.flexRow}>
+                    <TextInput
+                        onChangeText={(text) => setText(text)}
+                        placeholder="Write your note here"
+                        style={styles.input}
+                        value={text}
+                    />
+                    <Button 
+                        title="Save" 
+                        onPress={() => { 
+                        add(text);
+                        setText(null);
+                        }} 
+                    />
+                    <Button 
+                        title='Go back'
+                        onPress={() => navigation.navigate('List', { screen: List})} 
+                        options={{ headerShown: false }}
+                    />
+                    </View>
+                </>
+                )}
             </View>
         </SafeAreaView>
     );
+
+    function useForceUpdate() {
+        const [value, setValue] = useState(0);
+        return [() => setValue(value + 1), value];
+      }
 }
 
 const styles = StyleSheet.create({
