@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Button, Platform, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
-import Constants from 'expo-constants';
 import { useRoute } from '@react-navigation/native';
 import { useTheme } from './themes/themeProvider';
 import * as SQLite from 'expo-sqlite';
@@ -29,7 +28,6 @@ const Form = ({ navigation }) => {
     const {theme} = useTheme();
     const { screen, id, title } = route.params;
     const [text, setText] = useState(null);
-    const [forceUpdate, forceUpdateId] = useForceUpdate();
   
     useEffect(() => {
       db.transaction((tx) => {
@@ -52,8 +50,7 @@ const Form = ({ navigation }) => {
             console.log(JSON.stringify(rows))
           );
         },
-        null,
-        forceUpdate
+        null
       );
     };
   
@@ -95,11 +92,6 @@ const Form = ({ navigation }) => {
             </View>
         </SafeAreaView>
     );
-
-    function useForceUpdate() {
-        const [value, setValue] = useState(0);
-        return [() => setValue(value + 1), value];
-      }
 }
 
 const styles = StyleSheet.create({
