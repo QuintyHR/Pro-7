@@ -11,6 +11,10 @@ export const defaultTheme = {
     listBox: {
       backgroundColor: '#B3B9C9',
     },
+    notesBox: {
+      textColor: '#000',
+      backgroundColor: '#7F838F',
+    },
     input: {
       textColor: '#000',
       backgroundColor: '#F5F5F5',
@@ -29,6 +33,10 @@ export const darkTheme = {
     },
     listBox: {
       backgroundColor: '#323338',
+    },
+    notesBox: {
+      textColor: '#fff',
+      backgroundColor: '#5B5D66',
     },
     input: {
       textColor: '#fff',

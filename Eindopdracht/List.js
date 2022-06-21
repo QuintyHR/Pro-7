@@ -5,6 +5,23 @@ import * as SQLite from 'expo-sqlite';
 
 import { Form } from './Form.js'
 
+function openDatabase() {
+  if (Platform.OS === "web") {
+    return {
+      transaction: () => {
+        return {
+          executeSql: () => {},
+        };
+      },
+    };
+  }
+
+  const db = SQLite.openDatabase("db.db");
+  return db;
+}
+
+const db = openDatabase();
+
 const List = ({ navigation }) => {
   const {theme} = useTheme();
   const [items, setItems] = useState([]);
@@ -16,16 +33,50 @@ const List = ({ navigation }) => {
         .catch(error => console.log(error))
   }
 
-  const renderItem = ({ item }) => {
+  const RenderNote = ({ data }) => {
+    const [notes, setNotes] = useState(null);
+
+    useEffect(() => {
+      db.transaction((tx) => {
+        tx.executeSql("select * from notes where itemId = ?", 
+        [data], 
+        (_, { rows: { _array } })  => setNotes(_array)
+        );
+      });
+    }, []);
+  
+    if (notes === null || notes.length === 0) {
+      return null;
+    }
+
+    return (
+      <View style={[styles.notes]}>
+        <Text>Notes</Text>
+        {notes.map(({ id, itemId, noteText }) => (
+            <Text>{noteText}</Text>
+        ))}
+      </View>
+    )
+  }
+
+  function renderItem ({ item }) {
     return (
       <View style={[styles.item, { backgroundColor: theme.listBox.backgroundColor }]}>
-        <Text style={[styles.titleText, { color: theme.textColor }]}>{item.title}</Text>
-        <Text style={[{ color: theme.textColor }]}>{item.description}</Text>
-        <Button 
-          title='+ Add note'
-          onPress={() => navigation.navigate('Add note', { screen: Form, id: item.id, title: item.title})} 
-          options={{ headerShown: false }}
-        />
+        <ScrollView>
+          <Text style={[styles.titleText, { color: theme.textColor }]}>{item.title}</Text>
+          <Text style={[{ color: theme.textColor }]}>{item.description}</Text>
+          <Button 
+            title='+ Add note'
+            onPress={() => navigation.navigate('Form', { screen: Form, id: item.id, title: item.title})} 
+            options={{ headerShown: false }}
+          />
+          <Text style={[styles.item, { color: theme.textColor }]}>Notes</Text>
+          <ScrollView>
+            <RenderNote 
+              data={item.id}
+            />
+          </ScrollView>
+        </ScrollView>
       </View>
     )
   }
@@ -53,6 +104,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
+      marginBottom: 100,
     },
     item: {
       padding: 5,
@@ -62,6 +114,9 @@ const styles = StyleSheet.create({
       fontSize: 20,
       fontWeight: 'bold',
       paddingBottom: 10,
+    },
+    note: {
+      backgroundColor: '#fff',
     },
 });
 

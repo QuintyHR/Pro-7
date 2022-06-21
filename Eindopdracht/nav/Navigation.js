@@ -13,13 +13,12 @@ const Tab = createBottomTabNavigator ();
 
 export function Navigation() {
   return (
-    <Tab.Navigator tabBar={props => <TabBar {...props} state={{...props.state, routes: props.state.routes.slice(0,5)}}/>}>
+    <Tab.Navigator tabBar={props => <TabBar {...props} state={{...props.state, routes: props.state.routes.slice(0,4)}}/>}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Map" component={Map} />
       <Tab.Screen name="List" component={List} />
       <Tab.Screen name="Settings" component={Settings} />
-      <Tab.Screen name="TestDatabase" component={TestDatabase} />
-      <Tab.Screen name="Add note" component={Form} />
+      <Tab.Screen name="Form" component={Form} />
     </Tab.Navigator>
   );
 }
