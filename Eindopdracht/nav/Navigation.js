@@ -2,15 +2,16 @@ import React from 'react';
 import TabBar from './TabBar';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+//Load all components in for the navigation 
 import { Home } from '../Home.js'
 import { Map } from '../Map.js'
 import { List } from '../List.js'
 import { Settings } from '../Settings.js'
-import { TestDatabase } from '../TestDatabase.js'
 import { Form } from '../Form.js'
 
 const Tab = createBottomTabNavigator ();
 
+//Export for App.js and all navigation components
 export function Navigation() {
   return (
     <Tab.Navigator tabBar={props => <TabBar {...props} state={{...props.state, routes: props.state.routes.slice(0,4)}}/>}>

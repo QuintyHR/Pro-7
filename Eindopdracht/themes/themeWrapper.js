@@ -1,6 +1,6 @@
 import { useTheme } from "./themeProvider";
 
-// Extra component used in the navigation. Extra security. 
+//Extra component used in the navigation
 const ThemeWrapper = ({ children }) => {
     const { isLoadingTheme } = useTheme();
 

@@ -4,6 +4,8 @@ import { useTheme } from '../themes/themeProvider';
 import Tab from './Tab';
 
 const {width} = Dimensions.get('screen');
+
+//The TabBar component to load in 
 const TabBar = ({state, navigation}) => {
     const [selected, setSelected] = useState('home');
     const {theme} = useTheme();
@@ -16,6 +18,7 @@ const TabBar = ({state, navigation}) => {
         }
     }
 
+    //Return bottom navigator 
     return (
         <View style={{ position: 'absolute', bottom: 0, width: width}}>
         <View
@@ -34,6 +37,7 @@ const TabBar = ({state, navigation}) => {
     )
 };
 
+//Styling for the TabBar component
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
@@ -42,4 +46,5 @@ const styles = StyleSheet.create({
     },
 })
 
+//Export the TabBar
 export default TabBar

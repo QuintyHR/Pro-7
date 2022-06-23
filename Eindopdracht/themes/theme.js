@@ -1,5 +1,4 @@
-// Making the different themes
-//First one is light mode
+//Styling for the light theme of the app
 export const defaultTheme = {
     backgroundColor: '#fff',
     textColor: '#000',
@@ -22,7 +21,7 @@ export const defaultTheme = {
     themeMode: 'default',
 };
 
-//This is dark mode
+//Styling for the dark theme of the app
 export const darkTheme = {
     backgroundColor: '#0f0f0f',
     textColor: '#fff',

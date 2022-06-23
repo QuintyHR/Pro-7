@@ -6,6 +6,7 @@ import * as SQLite from 'expo-sqlite';
 
 import { List } from "./List";
 
+//Open the database on the device
 function openDatabase() {
     if (Platform.OS === "web") {
       return {
@@ -23,12 +24,14 @@ function openDatabase() {
 
 const db = openDatabase();
 
+//The Form component to load in
 const Form = ({ navigation }) => {
     const route = useRoute();
     const {theme} = useTheme();
     const { screen, id, title } = route.params;
     const [text, setText] = useState(null);
   
+    //If table doesn't exist create a new one for notes
     useEffect(() => {
       db.transaction((tx) => {
         tx.executeSql(
@@ -37,12 +40,14 @@ const Form = ({ navigation }) => {
       });
     }, []);
   
+    //If text if empty, don't add to the database
     const add = (text) => {
       // is text empty?
       if (text === null || text === "") {
         return false;
       }
   
+      //Else add all the info needed to the database
       db.transaction(
         (tx) => {
           tx.executeSql("insert into notes (itemId, noteText) values (?, ?)", [id, text]);
@@ -54,6 +59,7 @@ const Form = ({ navigation }) => {
       );
     };
   
+    //Return the Form so the user can fill it in
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
             <View>
@@ -94,6 +100,7 @@ const Form = ({ navigation }) => {
     );
 }
 
+//Styling for the Form component
 const styles = StyleSheet.create({
     input: {
         height: 40,
@@ -109,4 +116,5 @@ const styles = StyleSheet.create({
       },
 });
 
+//Export the Form so it can be found by the navigation
 export {Form};

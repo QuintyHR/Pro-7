@@ -5,6 +5,7 @@ import { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import NetInfo from '@react-native-community/netinfo';
 
+//The Map component to load in and exporting it for the navigation
 export function Map() {
     const [location, setLocation] = useState({
         latitude: 37.78825,
@@ -17,15 +18,15 @@ export function Map() {
 
     let data = null;
 
+    //Check if WiFI is available to load in the map
     const checkWifi = NetInfo.addEventListener(state => {
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
       data = state.isConnected
     });
 
+    //Check constantly for WiFi or any internet connection
     useEffect(checkWifi);
-    console.log(data)
   
+    //Ask perimission of the users location
     useEffect(() => {
       (async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -34,6 +35,7 @@ export function Map() {
           return;
         }
   
+        //Get the users location
         let locationSelf = await Location.getCurrentPositionAsync({});
         setLocation(locationSelf.coords);
       })();
@@ -46,6 +48,7 @@ export function Map() {
       text = JSON.stringify(location);
     }
 
+    //Fetch all the marker locations 
     const loadJSON = () => {
         fetch("https://stud.hosted.hr.nl/1019766/webservice/hobbyshop.json")
             .then(res => res.json())
@@ -53,6 +56,7 @@ export function Map() {
             .catch(error => console.log(error))
     }
 
+    //Return all marker locations on the map
     const markerItems = markers.map((marker, index) => {
         return <Marker
           key={index}
@@ -63,8 +67,10 @@ export function Map() {
         </Marker >
     })
 
+    //Fetch the location data only once
     useEffect(loadJSON, [])
   
+    //If users has internet, then load the map
     if(data === true) {
       return (
         <View style={styles.container}>
@@ -89,14 +95,16 @@ export function Map() {
         </View>
       );
     } else {
+      //If no internet, then don't load the map
       return (
         <View style={styles.container}>
-          <Text>Fail</Text>
+          <Text>Soory, it seems like you have no internet connection at the moment :c</Text>
         </View>
       );
     }
 }
 
+//Styling for the Map component
 const styles = StyleSheet.create({
     container: {
         flex: 1,
