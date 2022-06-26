@@ -10,7 +10,7 @@ const TabBar = ({state, navigation}) => {
     const [selected, setSelected] = useState('home');
     const {theme} = useTheme();
     const {routes} = state;
-    const renderColor = currentTab => currentTab === selected ? theme.nav.active : theme.nav.inactive;
+    const renderColor = currentTab => currentTab === selected ? theme.nav.active : theme.nav.inActive;
     const handlePress = (activeTab, index) => {
         if(state.index !== index) {
             setSelected(activeTab);
@@ -22,7 +22,7 @@ const TabBar = ({state, navigation}) => {
     return (
         <View style={{ position: 'absolute', bottom: 0, width: width}}>
         <View
-            style={[styles.container,{ backgroundColor: theme.nav.backgroundColor },]}>
+            style={[styles.container,{ backgroundColor: theme.nav.backgroundColor }]}>
             {routes.map((route, index) => (
             <Tab
                 styles={styles.tab}

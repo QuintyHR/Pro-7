@@ -37,15 +37,15 @@ const List = ({ navigation }) => {
   }
 
   //Getting the notes data for each list item
-  const RenderNote = ({ data }) => {
+  const RenderNotes = ({ data }) => {
     const [notes, setNotes] = useState(null);
 
     //Getting the data from the database where itemId is wqual to the list id
     useEffect(() => {
       db.transaction((tx) => {
         tx.executeSql("select * from notes where itemId = ?", 
-        [data], 
-        (_, { rows: { _array } })  => setNotes(_array)
+          [data], 
+          (_, { rows: { _array } })  => setNotes(_array)
         );
       });
     }, []);
@@ -58,9 +58,8 @@ const List = ({ navigation }) => {
     //Return all the found notes of that list item id
     return (
       <View style={[styles.notes]}>
-        <Text>Notes</Text>
-        {notes.map(({ id, itemId, noteText }) => (
-            <Text>{noteText}</Text>
+        {notes.map(({ key, itemId, noteText }) => (
+            <Text style={[{color: theme.notesBox.textColor}]} key={key}>{noteText}</Text>
         ))}
       </View>
     )
@@ -72,15 +71,15 @@ const List = ({ navigation }) => {
       <View style={[styles.item, { backgroundColor: theme.listBox.backgroundColor }]}>
         <ScrollView>
           <Text style={[styles.titleText, { color: theme.textColor }]}>{item.title}</Text>
-          <Text style={[{ color: theme.textColor }]}>{item.description}</Text>
+          <Text style={[styles.item, { color: theme.textColor }]}>{item.description}</Text>
           <Button 
             title='+ Add note'
             onPress={() => navigation.navigate('Form', { screen: Form, id: item.id, title: item.title})} 
             options={{ headerShown: false }}
           />
-          <Text style={[styles.item, { color: theme.textColor }]}>Notes</Text>
+          <Text style={[styles.titleText, { color: theme.textColor }]}>Notes</Text>
           <ScrollView>
-            <RenderNote 
+            <RenderNotes 
               data={item.id}
             />
           </ScrollView>
@@ -118,16 +117,19 @@ const styles = StyleSheet.create({
       marginBottom: 100,
     },
     item: {
+      textAlign: 'center',
       padding: 5,
       margin: 10,
     },
     titleText: {
+      textAlign: 'center',
       fontSize: 20,
       fontWeight: 'bold',
       paddingBottom: 10,
     },
     notes: {
-      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
 });
 

@@ -4,8 +4,11 @@ export const defaultTheme = {
     textColor: '#000',
     nav: {
       backgroundColor: '#44464D',
-      active: '#ed5c5c',
+      active: '#FFA2FD',
       inActive: '#fff',
+    },
+    marker: {
+      pinColor: '#FFA2FD',
     },
     listBox: {
       backgroundColor: '#B3B9C9',
@@ -26,9 +29,12 @@ export const darkTheme = {
     backgroundColor: '#0f0f0f',
     textColor: '#fff',
     nav: {
-      backgroundColor: '#ed5c5c',
+      backgroundColor: '#8F166A',
       active: '#fff',
-      inActive: '#202124',
+      inActive: '#202024',
+    },
+    marker: {
+      pinColor: '#FFA2FD',
     },
     listBox: {
       backgroundColor: '#323338',

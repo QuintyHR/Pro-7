@@ -4,9 +4,11 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import NetInfo from '@react-native-community/netinfo';
+import { useTheme } from './themes/themeProvider';
 
 //The Map component to load in and exporting it for the navigation
 export function Map() {
+    const {theme} = useTheme();
     const [location, setLocation] = useState({
         latitude: 37.78825,
         longitude: -122.4324,
@@ -41,6 +43,7 @@ export function Map() {
       })();
     }, []);
   
+    let text = "Waiting..."
     if (errorMsg) {
       text = errorMsg;
     } else if (location) {
@@ -58,11 +61,13 @@ export function Map() {
 
     //Return all marker locations on the map
     const markerItems = markers.map((marker, index) => {
+
         return <Marker
           key={index}
           coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
           title={marker.title}
           description={marker.description}
+          pinColor={'violet'}
         >
         </Marker >
     })
@@ -89,7 +94,10 @@ export function Map() {
               longitudeDelta: 0.001,
             }}
           >
-            <Marker coordinate={location} />
+            <Marker 
+              coordinate={location} 
+              pinColor={'indigo'}
+            />
             {markerItems}
           </MapView>
         </View>
@@ -98,7 +106,7 @@ export function Map() {
       //If no internet, then don't load the map
       return (
         <View style={styles.container}>
-          <Text>Soory, it seems like you have no internet connection at the moment :c</Text>
+          <Text>Sorry, it seems like you have no internet connection at the moment :c</Text>
         </View>
       );
     }

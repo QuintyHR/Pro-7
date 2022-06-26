@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import { Button, Platform, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import { useTheme } from './themes/themeProvider';
-import * as SQLite from 'expo-sqlite';
+import { openDatabase } from 'expo-sqlite';
 
 import { List } from "./List";
 
 //Open the database on the device
-function openDatabase() {
+function openDB() {
     if (Platform.OS === "web") {
       return {
         transaction: () => {
@@ -18,11 +18,11 @@ function openDatabase() {
       };
     }
   
-    const db = SQLite.openDatabase("db.db");
+    const db = openDatabase("db.db");
     return db;
 }
 
-const db = openDatabase();
+const db = openDB();
 
 //The Form component to load in
 const Form = ({ navigation }) => {
@@ -83,12 +83,12 @@ const Form = ({ navigation }) => {
                     <Button 
                         title="Save" 
                         onPress={() => { 
-                        add(text);
-                        setText(null);
+                          add(text);
+                          setText(null);
                         }} 
                     />
                     <Button 
-                        title='Go back'
+                        title="Go back"
                         onPress={() => navigation.navigate('List', { screen: List})} 
                         options={{ headerShown: false }}
                     />
