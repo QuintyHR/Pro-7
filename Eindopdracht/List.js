@@ -27,6 +27,7 @@ const db = openDB();
 const List = ({ navigation }) => {
   const {theme} = useTheme();
   const [items, setItems] = useState([]);
+  const [forceUpdate] = useForceUpdate();
 
   //Fetching the data from the web as JSON
   const loadJSON = () => {
@@ -35,6 +36,25 @@ const List = ({ navigation }) => {
         .then(data => setItems(data.items))
         .catch(error => console.log(error))
   }
+
+  function useForceUpdate() {
+    const [value, setValue] = useState(0);
+    return [() => setValue(value + 1), value];
+  }
+
+  const deleteNote = (noteId) => {
+    //Else add all the info needed to the database
+    db.transaction(
+      (tx) => {
+        tx.executeSql("delete from notes where id = ?", [noteId]);
+        tx.executeSql("select * from notes", [], (_, { rows }) =>
+          console.log(JSON.stringify(rows))
+        );
+      },
+      null,
+      forceUpdate
+    );
+  };
 
   //Getting the notes data for each list item
   const RenderNotes = ({ data }) => {
@@ -58,8 +78,16 @@ const List = ({ navigation }) => {
     //Return all the found notes of that list item id
     return (
       <View style={[styles.notes]}>
-        {notes.map(({ key, itemId, noteText }) => (
+        {notes.map(({ key, id, itemId, noteText }) => (
+          <View style={styles.note}>
             <Text style={[{color: theme.notesBox.textColor}]} key={key}>{noteText}</Text>
+            <Button 
+              title="Delete" 
+              onPress={() => { 
+                deleteNote(id);
+              }} 
+            />
+          </View>
         ))}
       </View>
     )
@@ -130,6 +158,9 @@ const styles = StyleSheet.create({
     notes: {
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    note: {
+      flexDirection: "row",
     },
 });
 

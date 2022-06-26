@@ -42,7 +42,6 @@ const Form = ({ navigation }) => {
   
     //If text if empty, don't add to the database
     const add = (text) => {
-      // is text empty?
       if (text === null || text === "") {
         return false;
       }
