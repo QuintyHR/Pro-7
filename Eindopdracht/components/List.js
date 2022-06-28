@@ -4,6 +4,7 @@ import { useTheme } from '../themes/themeProvider';
 import { openDatabase } from 'expo-sqlite';
 
 import { Form } from './Form.js'
+import { Edit } from './Edit.js'
 
 //Open the database on the device
 function openDB() {
@@ -82,6 +83,11 @@ const List = ({ navigation }) => {
         {notes.map(({ key, id, itemId, noteText }) => (
           <View style={styles.note}>
             <Text style={[{color: theme.notesBox.textColor}]} key={key}>{noteText}</Text>
+            <Button 
+              title='Edit'
+              onPress={() => navigation.navigate('Edit', { screen: Edit, id: id, noteText: noteText })} 
+              options={{ headerShown: false }}
+            />
             <Button 
               title="Delete" 
               onPress={() => { 

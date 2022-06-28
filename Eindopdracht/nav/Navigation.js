@@ -8,6 +8,7 @@ import { Map } from '../components/Map.js'
 import { List } from '../components/List.js'
 import { Settings } from '../components/Settings.js'
 import { Form } from '../components/Form.js'
+import { Edit } from '../components/Edit.js'
 
 const Tab = createBottomTabNavigator ();
 
@@ -20,6 +21,7 @@ export function Navigation() {
       <Tab.Screen name="List" component={List} />
       <Tab.Screen name="Settings" component={Settings} />
       <Tab.Screen name="Form" component={Form} />
+      <Tab.Screen name="Edit" component={Edit} />
     </Tab.Navigator>
   );
 }
