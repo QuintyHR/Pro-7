@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text, Button } from 'react-native';
-import { useTheme } from './themes/themeProvider';
+import { useTheme } from '../themes/themeProvider';
 
 //The Settings component to load in and exporting it for the navigation
 export function Settings() {

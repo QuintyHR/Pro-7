@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import { useTheme } from './themes/themeProvider';
+import { useTheme } from '../themes/themeProvider.js';
 
 //The Home component to load in and exporting it for the navigation
 export function Home() {

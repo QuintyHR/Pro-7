@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button, Platform, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import { useTheme } from './themes/themeProvider';
+import { useTheme } from '../themes/themeProvider';
 import { openDatabase } from 'expo-sqlite';
 
 import { List } from "./List";

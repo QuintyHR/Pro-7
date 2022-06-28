@@ -4,7 +4,7 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import NetInfo from '@react-native-community/netinfo';
-import { useTheme } from './themes/themeProvider';
+import { useTheme } from '../themes/themeProvider';
 
 //The Map component to load in and exporting it for the navigation
 export function Map() {

@@ -3,11 +3,11 @@ import TabBar from './TabBar';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 //Load all components in for the navigation 
-import { Home } from '../Home.js'
-import { Map } from '../Map.js'
-import { List } from '../List.js'
-import { Settings } from '../Settings.js'
-import { Form } from '../Form.js'
+import { Home } from '../components/Home.js'
+import { Map } from '../components/Map.js'
+import { List } from '../components/List.js'
+import { Settings } from '../components/Settings.js'
+import { Form } from '../components/Form.js'
 
 const Tab = createBottomTabNavigator ();
 

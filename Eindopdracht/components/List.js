@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, SafeAreaView, Button, TouchableOpacity, ScrollView } from 'react-native';
-import { useTheme } from './themes/themeProvider';
+import { useTheme } from '../themes/themeProvider';
 import { openDatabase } from 'expo-sqlite';
 
 import { Form } from './Form.js'
@@ -78,6 +78,7 @@ const List = ({ navigation }) => {
     //Return all the found notes of that list item id
     return (
       <View style={[styles.notes]}>
+        <Text style={[styles.titleText, { color: theme.textColor }]}>Notes</Text>
         {notes.map(({ key, id, itemId, noteText }) => (
           <View style={styles.note}>
             <Text style={[{color: theme.notesBox.textColor}]} key={key}>{noteText}</Text>
@@ -105,7 +106,6 @@ const List = ({ navigation }) => {
             onPress={() => navigation.navigate('Form', { screen: Form, id: item.id, title: item.title})} 
             options={{ headerShown: false }}
           />
-          <Text style={[styles.titleText, { color: theme.textColor }]}>Notes</Text>
           <ScrollView>
             <RenderNotes 
               data={item.id}
