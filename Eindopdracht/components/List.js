@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, SafeAreaView, Button, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, FlatList, SafeAreaView, Button, TouchableOpacity, ScrollView, Share } from 'react-native';
 import { useTheme } from '../themes/themeProvider';
 import { openDatabase } from 'expo-sqlite';
 
@@ -38,13 +38,34 @@ const List = ({ navigation }) => {
         .catch(error => console.log(error))
   }
 
+  //Render the page again after deleting a note
   function useForceUpdate() {
     const [value, setValue] = useState(0);
     return [() => setValue(value + 1), value];
   }
 
+  //Share the selected note to some one
+  const onShare = async (noteText) => {
+    try {
+      const result = await Share.share({
+        message: noteText,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  //Delete the selected note from the database
   const deleteNote = (noteId) => {
-    //Else add all the info needed to the database
     db.transaction(
       (tx) => {
         tx.executeSql("delete from notes where id = ?", [noteId]);
@@ -90,9 +111,11 @@ const List = ({ navigation }) => {
             />
             <Button 
               title="Delete" 
-              onPress={() => { 
-                deleteNote(id);
-              }} 
+              onPress={() => {deleteNote(id)}} 
+            />
+            <Button 
+              title="Share" 
+              onPress={() => {onShare(noteText)}}  
             />
           </View>
         ))}

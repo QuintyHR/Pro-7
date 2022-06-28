@@ -49,7 +49,7 @@ const Edit = ({ navigation }) => {
       );
     };
   
-    //Return the Form so the user can fill it in
+    //Return the Edit so the user can fill it in
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
             <View>
