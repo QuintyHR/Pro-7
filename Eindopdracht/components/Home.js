@@ -9,7 +9,8 @@ export function Home() {
     return (
       <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={[{ color: theme.textColor }]}>Home Screen</Text>
+            <Text style={[styles.title, { color: theme.textColor }]}>Hobby Reminder</Text>
+            <Text style={[{ color: theme.textColor }]}>The app to remember where you bought all your stuff</Text>
         </View>
       </SafeAreaView>
     );
@@ -22,5 +23,10 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    title: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      margin: 20,
     },
 });

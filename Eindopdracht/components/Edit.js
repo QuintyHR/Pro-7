@@ -29,7 +29,7 @@ const Edit = ({ navigation }) => {
     const route = useRoute();
     const {theme} = useTheme();
     const { screen, id, noteText } = route.params;
-    const [text, setText] = useState(null);
+    const [text, setText] = useState(noteText);
   
     //If text if empty, don't update the database
     const update = (text) => {
@@ -68,7 +68,7 @@ const Edit = ({ navigation }) => {
                     <TextInput
                         onChangeText={(text) => setText(text)}
                         placeholder={noteText}
-                        style={styles.input}
+                        style={[styles.input, { color: theme.input.textColor }]}
                         value={text}
                     />
                     <Button 

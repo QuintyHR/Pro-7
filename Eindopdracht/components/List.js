@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, SafeAreaView, Button, TouchableOpacity, ScrollView, Share } from 'react-native';
 import { useTheme } from '../themes/themeProvider';
 import { openDatabase } from 'expo-sqlite';
+import NetInfo from '@react-native-community/netinfo';
 
 import { Form } from './Form.js'
 import { Edit } from './Edit.js'
@@ -30,6 +31,16 @@ const List = ({ navigation }) => {
   const [items, setItems] = useState([]);
   const [forceUpdate] = useForceUpdate();
 
+  let internet = null;
+
+  //Check if WiFI is available to load the fetch
+  const checkWifi = NetInfo.addEventListener(state => {
+    internet = state.isConnected
+  });
+
+  //Check constantly for WiFi or any internet connection
+  useEffect(checkWifi);
+
   //Fetching the data from the web as JSON
   const loadJSON = () => {
     fetch("https://stud.hosted.hr.nl/1019766/webservice/hobbyshop.json")
@@ -42,6 +53,11 @@ const List = ({ navigation }) => {
   function useForceUpdate() {
     const [value, setValue] = useState(0);
     return [() => setValue(value + 1), value];
+  }
+
+  //Reload the pafe after pressing the button
+  const reload = () => {
+    forceUpdate()
   }
 
   //Share the selected note to some one
@@ -106,15 +122,18 @@ const List = ({ navigation }) => {
             <Text style={[{color: theme.notesBox.textColor}]} key={key}>{noteText}</Text>
             <Button 
               title='Edit'
+              style={styles.buttons}
               onPress={() => navigation.navigate('Edit', { screen: Edit, id: id, noteText: noteText })} 
               options={{ headerShown: false }}
             />
             <Button 
               title="Delete" 
-              onPress={() => {deleteNote(id)}} 
+              style={styles.buttons}
+              onPress={() => {deleteNote(id);}} 
             />
             <Button 
               title="Share" 
+              style={styles.buttons}
               onPress={() => {onShare(noteText)}}  
             />
           </View>
@@ -148,20 +167,34 @@ const List = ({ navigation }) => {
   //Perform the fetching of list data only once
   useEffect(loadJSON, [])
 
-  //Return the View for the List component
-  return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        {/* {isFetching ? <ActivityIndicator size="large" color="#FF00FF" /> : ( */}
-        <FlatList
-          data={items}
-          keyExtractor={({ id }) => id}
-          renderItem={renderItem}
+  //If user has internet, then fetch data and render that in
+  if(internet === true) {
+    return (
+      <SafeAreaView style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          {/* {isFetching ? <ActivityIndicator size="large" color="#FF00FF" /> : ( */}
+          <FlatList
+            data={items}
+            keyExtractor={({ id }) => id}
+            renderItem={renderItem}
+          />
+          {/* )} */}
+        </View>
+      </SafeAreaView>
+    );
+  } else {
+    //If no internet, then don't fetch and give a warning
+    return (
+      <View style={styles.container}>
+        <Text>Sorry, it seems like you have no internet connection at the moment :c</Text>
+        <Text>To use this function you are required to have an internet connection</Text>
+        <Button 
+            title="Reload page" 
+            onPress={() => {reload();}} 
         />
-        {/* )} */}
       </View>
-    </SafeAreaView>
-  );
+    );
+  }
 }
 
 //Styling for the List component
@@ -182,6 +215,7 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       fontSize: 20,
       fontWeight: 'bold',
+      paddingTop: 10,
       paddingBottom: 10,
     },
     notes: {
@@ -190,6 +224,10 @@ const styles = StyleSheet.create({
     },
     note: {
       flexDirection: "row",
+      fontSize: 20,
+    },
+    buttons: {
+      paddingBottom: 10,
     },
 });
 

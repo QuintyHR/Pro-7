@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Button } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
@@ -16,13 +16,14 @@ export function Map() {
         longitudeDelta: 0.001,
     });
     const [errorMsg, setErrorMsg] = useState(null);
-    const [markers, setMarkers] = useState([])
+    const [markers, setMarkers] = useState([]);
+    const [forceUpdate] = useForceUpdate();
 
-    let data = null;
+    let internet = null;
 
     //Check if WiFI is available to load in the map
     const checkWifi = NetInfo.addEventListener(state => {
-      data = state.isConnected
+      internet = state.isConnected
     });
 
     //Check constantly for WiFi or any internet connection
@@ -74,9 +75,18 @@ export function Map() {
 
     //Fetch the location data only once
     useEffect(loadJSON, [])
+
+    function useForceUpdate() {
+      const [value, setValue] = useState(0);
+      return [() => setValue(value + 1), value];
+    }
+
+    const reload = () => {
+      forceUpdate()
+    }
   
-    //If users has internet, then load the map
-    if(data === true) {
+    //If user has internet, then load the map
+    if(internet === true) {
       return (
         <View style={styles.container}>
           <MapView style={styles.map} 
@@ -103,10 +113,15 @@ export function Map() {
         </View>
       );
     } else {
-      //If no internet, then don't load the map
+      //If no internet, then don't load the map and give a warning
       return (
         <View style={styles.container}>
           <Text>Sorry, it seems like you have no internet connection at the moment :c</Text>
+          <Text>To use this function you are required to have an internet connection</Text>
+          <Button 
+              title="Reload page" 
+              onPress={() => {reload();}} 
+            />
         </View>
       );
     }

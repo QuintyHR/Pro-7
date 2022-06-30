@@ -76,7 +76,7 @@ const Form = ({ navigation }) => {
                     <TextInput
                         onChangeText={(text) => setText(text)}
                         placeholder="Write your note here"
-                        style={styles.input}
+                        style={[styles.input, { color: theme.input.textColor }]}
                         value={text}
                     />
                     <Button 

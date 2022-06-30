@@ -7,6 +7,10 @@ export const defaultTheme = {
       active: '#FFA2FD',
       inActive: '#fff',
     },
+    header: {
+      backgroundColor: '#44464D',
+      textColor: '#fff',
+    },
     marker: {
       pinColor: '#FFA2FD',
     },
@@ -28,10 +32,18 @@ export const defaultTheme = {
 export const darkTheme = {
     backgroundColor: '#0f0f0f',
     textColor: '#fff',
+    header: {
+      backgroundColor: '#8F166A',
+      textColor: '#fff',
+    },
     nav: {
       backgroundColor: '#8F166A',
       active: '#fff',
       inActive: '#202024',
+    },
+    button: {
+      textColor: '#fff',
+      backgroundColor: '#8F166A',
     },
     marker: {
       pinColor: '#FFA2FD',
