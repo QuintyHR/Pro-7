@@ -23,7 +23,7 @@ export function Navigation() {
         name="Home" 
         component={Home}
         options={{
-          title: 'Hobby Notes',
+          title: 'Hobby Reminder',
           headerStyle: {
             backgroundColor: theme.header.backgroundColor,
           },
@@ -79,7 +79,7 @@ export function Navigation() {
         name="Form" 
         component={Form} 
         options={{
-          title: 'Add Note',
+          title: 'Add New Note',
           headerStyle: {
             backgroundColor: theme.header.backgroundColor,
           },
@@ -93,7 +93,7 @@ export function Navigation() {
         name="Edit" 
         component={Edit} 
         options={{
-          title: 'Edit Note',
+          title: 'Edit A Note',
           headerStyle: {
             backgroundColor: theme.header.backgroundColor,
           },
